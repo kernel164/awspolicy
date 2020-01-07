@@ -10,6 +10,7 @@ import (
 	"github.com/kernel164/awspolicy/internal/capture"
 	"github.com/kernel164/awspolicy/internal/capture/terraformcli"
 	"github.com/kernel164/awspolicy/internal/out"
+	"github.com/kernel164/awspolicy/internal/out/file"
 	"github.com/kernel164/awspolicy/internal/out/ssm"
 	"github.com/kernel164/awspolicy/internal/util"
 )
@@ -87,9 +88,11 @@ func (e *CaptureEngine) output(data *capture.Results) {
 }
 
 func determineOutput(path string, def out.Output) out.Output {
-	switch {
-	case strings.HasPrefix(path, "ssm:"):
+	if strings.HasPrefix(path, "ssm:") {
 		return ssm.New(path)
+	}
+	if strings.HasPrefix(path, "file:") {
+		return file.New(path[5:])
 	}
 	return def
 }
