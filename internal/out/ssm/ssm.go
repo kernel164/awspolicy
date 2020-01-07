@@ -51,7 +51,7 @@ func (s *SSM) Set(key string, value string) error {
 }
 
 func (s *SSM) normalize(key string) (string, bool) {
-	if strings.HasPrefix(key, ":ssm:") {
+	if strings.HasPrefix(key, "ssm:") {
 		key = key[4:]
 	}
 	return key, false
